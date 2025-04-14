@@ -6,24 +6,17 @@ WORKDIR /app
 
 # Install Git and Git LFS
 RUN apt-get update && \
-    apt-get install -y git git-lfs && \
-    git lfs install
+    apt-get install -y git git-lfs
 
-# Copy requirements first to leverage Docker cache
-COPY requirements.txt .
+COPY . .
+
+RUN git lfs install
+
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Clone your repository with LFS support
-# Note: You may need to use SSH keys or access tokens for private repos
-RUN git clone https://github.com/your-username/cat-dog-classifier-api.git . && \
-    git lfs pull
 
 # Initialize and update submodules with LFS support
 RUN git submodule update --init --recursive && \
     git submodule foreach 'git lfs pull'
-
-# Copy your application code
-COPY . .
 
 ENV PORT=8000
 
