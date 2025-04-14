@@ -1,0 +1,7 @@
+"fastapi[standard]"
+tensorflow
+tf-keras
+python-multipart
+asyncio
+numpy
+opencv-python

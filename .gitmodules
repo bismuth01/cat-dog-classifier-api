@@ -1,0 +1,9 @@
+[submodule "models/cat-dog-CNN"]
+	path = models/cat-dog-CNN
+	url = https://github.com/Kartik-1902/cat-dog-CNN.git
+[submodule "models/cat-dog-resnet50"]
+	path = models/cat-dog-resnet50
+	url = https://github.com/bismuth01/cat-dog-resnet50.git
+[submodule "models/CatDogANN"]
+	path = models/CatDogANN
+	url = https://github.com/Shaurya55555/CatDogANN.git
