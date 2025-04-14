@@ -8,6 +8,8 @@ WORKDIR /app
 RUN apt-get update && \
     apt-get install -y git git-lfs
 
+COPY .git ./.git
+COPY .gitmodules ./.gitmodules
 COPY . .
 
 RUN git lfs install
