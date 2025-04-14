@@ -35,10 +35,20 @@ def preprocess_image(file_bytes: bytes, model_type: str):
 
 async def predict(img: np.ndarray, model: Model, model_type: str):
     prediction = model.predict(img)[0]
-    class_labels = ["Cat", "Dogs"]
-    index = int(np.argmax(prediction))
-    predicted_class = class_labels[index]
-    confidence = float(prediction[index])  # convert to regular float for JSON serialization
+    class_labels = ["Cat", "Dog"]
+
+    # ResNet is categorical while CNN and ANN are binary
+    if model_type == 'resnet':
+        index = int(np.argmax(prediction))
+        predicted_class = class_labels[index]
+        confidence = float(prediction[index]) # convert to regular float for JSON serialization
+    else:
+        if prediction[0] > 0.5:
+            predicted_class = "Dog"
+            confidence = float(prediction[0])
+        else:
+            predicted_class = "Cat"
+            confidence = float(1.0 - prediction[0])
 
     print(f"[LOG] Prediction from {model_type.upper()}: {prediction}")
 
