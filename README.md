@@ -23,6 +23,8 @@ Then to start the API server
 
 To check if it's running, try a GET request on the `/status` endpoint.
 
+Send a your image at `/predict_image` endpoint with key value `file` to get the prediction response.
+
 ## Sample response
 
 ```
