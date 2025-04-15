@@ -14,21 +14,12 @@ resnet = load_model('./models/cat-dog-resnet50/CatDogResNet50.h5')
 cnn = load_model('./models/cat-dog-CNN/CatDogCNN.h5')
 ann = load_model('./models/CatDogANN/CatDogANN.h5')
 
-def preprocess_image(file_bytes: bytes, model_type: str):
+def preprocess_image(file_bytes: bytes):
     np_arr = np.frombuffer(file_bytes, np.uint8)
-    if model_type == 'ann':
-        image = cv2.imdecode(np_arr, cv2.IMREAD_GRAYSCALE) # ANN takes in only 1 greyscale channel
-    else:
-        image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
-
+    image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
     image = cv2.resize(image, IMG_SIZE) # Image size taken in by models
     image = image / 255.0 # Normalize image
-
-    if model_type == 'ann':
-        image = image.reshape((128, 128, 1))
-    else:
-        image = image.reshape((128,128, 3))
-
+    image = image.reshape((128,128, 3))
     image = np.expand_dims(image, axis=0)
 
     return image
@@ -66,9 +57,9 @@ def read_root():
 @app.post("/predict_image")
 async def predict_image(file: UploadFile):
     file_bytes = await file.read()
-    ann_img_array = preprocess_image(file_bytes, 'ann')
-    cnn_img_array = preprocess_image(file_bytes, 'cnn')
-    resnet_img_array = preprocess_image(file_bytes, 'resnet')
+    ann_img_array = preprocess_image(file_bytes)
+    cnn_img_array = preprocess_image(file_bytes)
+    resnet_img_array = preprocess_image(file_bytes)
 
     tasks = [
         predict(resnet_img_array, resnet, 'resnet'),
