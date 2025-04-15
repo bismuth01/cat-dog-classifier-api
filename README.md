@@ -8,7 +8,7 @@ The types of models are : ResNet50 (categorical), CNN (binary) and ANN (binary)
 ### Using docker image
 Pull the docker image using `docker pull b1smuth/cat-dog-classifier-api:1.0.0`.
 
-To run the image using `docker run b1smuth/cat-dog-classifier-api:1.0.0`
+To run the image using `docker run -p 8000:8000 b1smuth/cat-dog-classifier-api:1.0.0` to expose port 8000 using port 8000 of the machine.
 
 ### Using source code
 First clone the repository with all the submodules
@@ -23,7 +23,7 @@ Then to start the API server
 `fastapi dev main.py`
 
 ## How to use
-
+The API runs on port `8000` by default.
 To check if it's running, try a GET request on the `/status` endpoint.
 
 Send a your image at `/predict_image` endpoint with key value `file` to get the prediction response.
